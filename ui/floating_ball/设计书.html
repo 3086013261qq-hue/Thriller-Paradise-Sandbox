@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>《惊悚乐园》封不觉悬浮球｜两版设计书</title>
+<style>
+:root{font:14px/1.6 system-ui,"Microsoft YaHei",sans-serif;color:#e8eaf0;background:#14171d}
+*{box-sizing:border-box}body{margin:0}main{max-width:1100px;margin:auto;padding:22px 16px 40px}
+header{margin-bottom:20px}h1{font-size:22px;margin:0 0 8px}p{margin:6px 0 12px;color:#aab1bd}
+small,.sub{color:#9ba4b2}.tag{border:1px solid #69737c;border-radius:20px;padding:2px 9px;font-size:11px}
+.version{border:1px solid #343b47;border-radius:16px;padding:16px;margin:16px 0;background:#1b2029}
+h2{font-size:17px;margin:0 0 6px}.frames{display:grid;grid-template-columns:minmax(0,1fr) 278px;gap:15px}
+figure{margin:0}figcaption{font-size:12px;color:#919aa8;margin-bottom:6px}
+.stage{height:300px;overflow:hidden;position:relative;border-radius:12px;background:#242b35;padding:14px}
+.stage.mobile{width:278px}.msg{max-width:88%;line-height:1.7;color:#aab3c0;background:#2d3440;border-radius:10px;padding:12px;opacity:.8}
+.orb{position:absolute;bottom:16px;right:15px;width:51px;height:51px;border:0;border-radius:50%;display:grid;place-items:center;cursor:pointer;font-size:23px;box-shadow:0 5px 18px #0008}
+.panel{display:none;position:absolute;right:12px;bottom:78px;width:min(300px,calc(100% - 24px));max-height:195px;overflow:auto;border-radius:12px;padding:12px;box-shadow:0 9px 28px #0009;font-size:12px}
+.panel.open{display:block}.panel h3{font-size:14px;margin:0 0 6px}.panel .line{display:flex;justify-content:space-between;gap:10px;padding:4px 0;border-bottom:1px solid #ffffff22}
+.panel .line span:first-child{opacity:.72}.tabs{display:flex;gap:6px;margin-bottom:8px}.tabs b{background:#ffffff14;padding:2px 8px;border-radius:6px}
+.a .orb{background:radial-gradient(circle at 24% 22%,#414957,#090b11 60%);color:#ff6f82;border:1px solid #f07188}
+.a .panel{background:#17191f;border:1px solid #e35c71;color:#faf0ef}
+.a .panel h3{color:#ff9ca9}.b .orb{background:radial-gradient(circle at 27% 22%,#92ffff,#1b506a 55%,#071d2d);color:#c4ffff;border:1px solid #77f2f9}
+.b .panel{background:#102a3d;border:1px solid #5bd7e8;color:#e1f6ff}
+.b .panel h3{color:#87f2ff}.notes{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.notes>div{background:#ffffff07;border-radius:9px;padding:10px}
+.overview{border:1px solid #454d5d;border-radius:14px;padding:14px}
+@media(max-width:750px){.frames,.notes{grid-template-columns:1fr}.stage:not(.mobile){height:220px}}
+</style>
+</head>
+<body>
+<main>
+<header><span class="tag">咩咩制卡·全栈 v1.0.0</span> <span class="tag">前端第二步 · 待选版</span>
+<h1>《惊悚乐园》｜封不觉的悬浮球</h1>
+<p>不使用 MVU。悬浮球从 AI 最近一轮的原生 &lt;status&gt; 读取已确认的等级、装备、技能、专精、称号与魂意；前端只显示，不自行修改数值。下方示例为视觉演示，不是实际游戏状态。</p></header>
+<section class="version a"><h2>方案 A｜黑红扑克档案 <small>偏惊悚乐园、低调、适合手机</small></h2>
+<p>平时只露一枚黑色红纹的 ♠ 悬浮球；点击后展开紧凑档案，可切到装备、技能、专精详情。</p>
+<div class="frames"><figure><figcaption>聊天栏宽 690px</figcaption><div class="stage"><div class="msg">封不觉站在走廊尽头，听见身后的门锁轻轻合拢。他先看了一眼自己的行囊，再思考行动路线……</div><button class="orb" onclick="toggle(this)" aria-label="展开角色资料">♠</button><div class="panel open"><h3>疯不觉 · 人物档案</h3><div class="tabs"><b>角色</b><b>装备</b><b>技能</b><b>专精</b></div><div class="line"><span>等级</span><strong>Lv.15 · 演示</strong></div><div class="line"><span>装备</span><strong>死亡扑克 · 演示</strong></div><div class="line"><span>魂意</span><strong>尚未觉醒</strong></div></div></div></figure>
+<figure><figcaption>手机聊天宽 278px</figcaption><div class="stage mobile"><div class="msg">觉哥仔细观察着眼前的机关。</div><button class="orb" onclick="toggle(this)" aria-label="展开角色资料">♠</button><div class="panel open"><h3>疯不觉 · 人物档案</h3><div class="tabs"><b>角色</b><b>装备</b><b>技能</b></div><div class="line"><span>等级</span><b>Lv.15 · 演示</b></div><div class="line"><span>魂意</span><b>未觉醒</b></div></div></div></figure></div>
+<div class="notes"><div><strong>优势</strong><div class="sub">不占正文位置；移动端展开区紧凑，比较符合封不觉冷幽默与恐怖游戏的气质。</div></div><div><strong>代价</strong><div class="sub">黑色面板在过暗主题里需要明确边框和文字对比度；多装备要使用内部滚动。</div></div></div></section>
+<section class="version b"><h2>方案 B｜NL2055 蓝色系统终端 <small>偏科技、强调数据辨识</small></h2>
+<p>常驻一颗淡蓝发光终端球，点击打开游戏内HUD样式的分项面板；在角色、专精、装备之间滑动。</p>
+<div class="frames"><figure><figcaption>聊天栏宽 690px</figcaption><div class="stage"><div class="msg">系统提示音响起。角色资料已经更新，但未取得的技能不会显示为已解锁……</div><button class="orb" onclick="toggle(this)" aria-label="展开角色资料">◈</button><div class="panel open"><h3>NL2055 // Player Profile</h3><div class="tabs"><b>属性</b><b>专精</b><b>库存</b></div><div class="line"><span>PLAYER</span><b>疯不觉</b></div><div class="line"><span>LEVEL</span><b>Lv.15 · 演示</b></div><div class="line"><span>灵术专精</span><b>以当轮状态为准</b></div></div></div></figure>
+<figure><figcaption>手机聊天宽 278px</figcaption><div class="stage mobile"><div class="msg">系统已确认当前可用的装备栏位。</div><button class="orb" onclick="toggle(this)" aria-label="展开角色资料">◈</button><div class="panel open"><h3>NL2055 // Profile</h3><div class="tabs"><b>属性</b><b>专精</b><b>库存</b></div><div class="line"><span>LEVEL</span><b>Lv.15 · 演示</b></div><div class="line"><span>魂意</span><b>未觉醒</b></div></div></div></figure></div>
+<div class="notes"><div><strong>优势</strong><div class="sub">专精、等级与生存/体能/惊吓等数据的区分更直接，后续装备栏可做图标或分类。</div></div><div><strong>代价</strong><div class="sub">视觉更强，可能比正文抢注意力；需要控制发光和动效，移动端不能遮挡输入栏。</div></div></div></section>
+<section class="overview"><h2>共通契约与选择</h2>
+<p>两版均为独立可选酒馆助手前端显示组件，均不修改咩咩预设、不写MVU、不自行结算成长。悬浮球可拖动、可收起；打开只显示当前聊天最近已解析且确认的数据，缺值统一显示“未确认”；新聊天不得沿用旧聊天的数值。装备栏与行囊分列，魂意在剧情正式获得前显示“未觉醒”；顶部先显示人物/等级，再切装备、技能、八系专精、称号及魂意。</p>
+<p><strong>推荐先选 A。</strong> 它更轻，更贴《惊悚乐园》氛围。选定后才写正式 DESIGN.md、实现SillyTavern脚本及Android实机QA。当前页面只是交互设计预览。</p>
+</section>
+</main>
+<script>function toggle(b){const p=b.parentNode.querySelector('.panel');if(p)p.classList.toggle('open')}</script>
+</body></html>
