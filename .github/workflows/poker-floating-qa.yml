@@ -1,0 +1,47 @@
+name: Poker floating-ball static QA
+on:
+  push:
+    paths:
+      - "ui/floating_ball/**"
+      - ".github/workflows/poker-floating-qa.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  script:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check standalone JS syntax
+        run: node --check ui/floating_ball/扑克档案.js
+      - name: Check importable Tavern Helper JSON and read-only UI contract
+        shell: python
+        run: |
+          from pathlib import Path
+          import json
+          root = Path('ui/floating_ball')
+          source = (root / '扑克档案.js').read_text(encoding='utf-8')
+          package = json.loads((root / '黑红扑克_酒馆助手角色脚本_v1.0.0.json').read_text(encoding='utf-8'))
+          assert package['type'] == 'script'
+          assert package['enabled'] is True
+          assert package['content'] == source
+          assert package['button']['enabled'] is True
+          assert package['button']['buttons'] == [{'name': '扑克档案', 'visible': True}]
+          assert len(package['id']) >= 30
+          for anchor in (
+            'getChatMessages', 'parseStatus', 'visualViewport',
+            'pointerdown', 'pointermove', 'pointerup',
+            'reset.addEventListener', 'localStorage',
+            'tp-poker-shell', 'setPointerCapture',
+            'aria-label', 'getButtonEvent', 'return Promise.resolve'
+          ):
+            assert anchor in source, anchor
+          for forbidden in ('getVariables(', 'replaceVariables(',
+                            'setChatMessages(', 'triggerSlash(',
+                            '.innerHTML', 'eval(', 'MagVarUpdate('):
+            assert forbidden not in source, forbidden
+          assert '♠' in source
+          assert '<status' in source
+          assert '未确认' in source
+          assert 'title=' not in source
+          print('PASS: JS source + Tavern Helper import JSON + BS1-like floating UI / no MVU')
