@@ -1,0 +1,21 @@
+name: Worldbook assembly QA
+on:
+  push:
+    paths:
+      - "worldbook/**"
+      - "assembly/worldbook/**"
+      - "qa/038_*"
+      - ".github/workflows/worldbook-qa.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  worldbook:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout frozen sources
+        uses: actions/checkout@v4
+      - name: Verify Python
+        run: python3 --version
+      - name: Rebuild manifest and verify exact source integrity
+        run: python3 assembly/worldbook/build_character_book.py
