@@ -53,7 +53,7 @@ def read_frozen_source(spec: dict) -> str:
     require(path.is_file(), f"遗漏正式源码: {rel}")
     raw = path.read_bytes()
     require(git_blob_sha(raw) == spec["source_sha"], f"冻结正文SHA不符: {rel}")
-    txt = raw.decode("utf-8").strip()
+    txt = raw.decode("utf-8")  # preserve verbatim newline in non-timeline source bodies
     if rel.startswith("worldbook/timeline/"):
         pieces = re.findall(r"<world_timeline>[\s\S]*?</world_timeline>", txt)
         require(len(pieces) == 1, f"上下卷必须各有且只有一个XML块: {rel}")
