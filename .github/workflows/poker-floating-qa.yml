@@ -45,3 +45,10 @@ jobs:
           assert '未确认' in source
           assert 'title=' not in source
           print('PASS: JS source + Tavern Helper import JSON + BS1-like floating UI / no MVU')
+
+      - name: Export exact checked script
+        uses: actions/upload-artifact@v4
+        with:
+          name: thriller-poker-script-source
+          path: ui/floating_ball/黑红扑克_酒馆助手角色脚本_v1.0.0.json
+          retention-days: 7
