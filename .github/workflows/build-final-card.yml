@@ -1,0 +1,44 @@
+name: Build Thriller Paradise final card V3
+on:
+  push:
+    paths:
+      - "assembly/card/**"
+      - "assembly/worldbook/dist/**"
+      - ".github/workflows/build-final-card.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build-card:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Verify frozen worldbook reconstruction
+        run: python3 assembly/worldbook/build_character_book.py
+      - name: Assemble complete character card
+        run: python3 assembly/card/build_final_card.py
+      - name: Verify card JSON and opening pool consistency
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("assembly/card/dist/惊悚乐园_v1.0.0_正式角色卡.json")
+          data=json.loads(p.read_text(encoding="utf-8"))
+          book=json.loads(Path("assembly/worldbook/dist/惊悚乐园_character_book.json").read_text(encoding="utf-8"))
+          assert data['spec']=='chara_card_v3' and data['spec_version']=='3.0'
+          assert data['data']['character_book']==book
+          assert len(data['data']['alternate_greetings'])==2
+          assert len(book['entries'])==201
+          assert '黑红扑克悬浮球' in data['data']['scenario']
+          print('PASS: exact worldbook inline, v3, three openings, NO MVU')
+          PY
+      - name: Export complete v3 JSON as downloadable artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: thriller-paradise-final-card-json
+          path: |
+            assembly/card/dist/惊悚乐园_v1.0.0_正式角色卡.json
+            assembly/card/dist/惊悚乐园_v1.0.0_装卡QA.json
+          compression-level: 6
+          retention-days: 30
