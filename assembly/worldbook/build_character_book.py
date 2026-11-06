@@ -172,7 +172,18 @@ def main() -> None:
     else:
         require(DIST.is_file(), "缺少已提交的正式character_book")
         existing = json.loads(DIST.read_text(encoding="utf-8"))
-        require(existing == book, "运行世界书与冻结源码/manifest不同步")
+        if existing != book:
+            if existing.keys() != book.keys():
+                print("DIFF_ROOT_KEYS", sorted(set(existing) ^ set(book)))
+            for idx, (left, right) in enumerate(zip(existing["entries"], book["entries"])):
+                if left != right:
+                    print("DIFF_ENTRY", idx, left.get("comment"), right.get("comment"))
+                    for field in sorted(set(left) | set(right)):
+                        if left.get(field) != right.get(field):
+                            print("DIFF_FIELD", field, repr(left.get(field))[:500],
+                                  "VS", repr(right.get(field))[:500])
+                    break
+            require(False, "运行世界书与冻结源码/manifest不同步")
     print(json.dumps({"result":"PASS","entries":201,"formal":181,
         "timelines":28,"default_enabled":"第一卷（上）",
         "trigger_double_guard":147,"mvu":False},ensure_ascii=False))
